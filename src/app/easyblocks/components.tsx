@@ -2,6 +2,7 @@
 import { AlertAction } from "@/app/easyblocks/components/AlertAction/AlertAction";
 import { BannerCard } from "@/app/easyblocks/components/BannerCard/BannerCard";
 import { BannerSection } from "@/app/easyblocks/components/BannerSection/BannerSection";
+import { LeagumendBanner } from "@/app/easyblocks/components/LeaguemedBanner/LeaguemedBanner";
 import { Link } from "@/app/easyblocks/components/Link/Link";
 import { ProductCard } from "@/app/easyblocks/components/ProductCard/ProductCard";
 import { VimeoPlayer } from "@/app/easyblocks/components/VimeoPlayer/VimeoPlayer";
@@ -37,6 +38,7 @@ const components = {
   CoverCard,
   BannerCard,
   BannerSection,
+  LeagumendBanner,
   VimeoPlayer,
   TextLink,
   SimpleBanner,

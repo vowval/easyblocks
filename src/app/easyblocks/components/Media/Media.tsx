@@ -50,7 +50,7 @@ export const Media: FC<MediaProps> = ({
 }) => {
   const { mediaType } = media;
 
-  console.log(".................................. media", media);
+  console.log(".................................. new media", media);
 
   if (ratio) {
     layout = "fill";

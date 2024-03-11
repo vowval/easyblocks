@@ -1,103 +1,126 @@
-import { NoCodeComponentDefinition } from "@easyblocks/core";
+import { DeviceRange, NoCodeComponentDefinition } from "@easyblocks/core";
 
-export const LeaguemedBannerDefinition: NoCodeComponentDefinition = {
+import { bannerCardDefinition } from "@/app/easyblocks/components/BannerCard/BannerCard.definition";
+import {
+  sectionWrapperCalculateMarginAndMaxWidth,
+  sectionWrapperEditing,
+  sectionWrapperGetContainerWidths,
+  sectionWrapperSchemaProps,
+  sectionWrapperStyles,
+  SectionWrapperValues,
+} from "@/app/easyblocks/components/utils/sectionWrapper/sectionWrapperHelpers";
+import { bannerCardAuto } from "@/app/easyblocks/components/BannerCard/BannerCard.auto";
+
+function getBannerCardValues(values: Record<string, any>, device: DeviceRange) {
+  const { margin } = sectionWrapperCalculateMarginAndMaxWidth(
+    values.containerMargin,
+    values.containerMaxWidth,
+    device
+  );
+
+  return {
+    ...values,
+    paddingLeft: values.escapeMargin ? margin.css : values.paddingLeft,
+    paddingRight: values.escapeMargin ? margin.css : values.paddingRight,
+    noFillPaddingLeft: values.escapeMargin
+      ? margin.css
+      : values.noFillPaddingLeft,
+    noFillPaddingRight: values.escapeMargin
+      ? margin.css
+      : values.noFillPaddingRight,
+    forceStandardHorizontalPaddings: !!values.escapeMargin,
+  };
+}
+
+export const leaguemedBannerDefinition: NoCodeComponentDefinition<
+  Record<string, any> & SectionWrapperValues
+> = {
   id: "LeaguemedBanner",
-  label: "LeaguemedBanner",
+  label: "Leaguemed Banner",
   type: "section",
+  allowSave: true,
   schema: [
+    ...sectionWrapperSchemaProps.margins,
     {
-      prop: "backgroundColor",
-      label: "Background Color",
-      type: "color",
-    },
-    {
-      prop: "image",
-      type: "@easyblocks/image",
-      label: "Source",
-      optional: true,
-    },
-    {
-      prop: "hasBorder",
-      label: "Has Border?",
+      prop: "escapeMargin",
+      label: "Escape",
       type: "boolean",
       responsive: true,
+      group: "Section margins",
     },
-    {
-      prop: "padding",
-      label: "Pading",
-      type: "space",
-    },
-    {
-      prop: "gap",
-      label: "Gap",
-      type: "space",
-    },
-    {
-      prop: "buttonsGap",
-      label: "Buttons gap",
-      type: "space",
-    },
-    {
-      prop: "Title",
-      type: "component",
-      required: true,
-      accepts: ["@easyblocks/text"],
-    },
-    {
-      prop: "Description",
-      type: "component",
-      required: true,
-      accepts: ["@easyblocks/text"],
-    },
-    {
-      prop: "Buttons",
-      type: "component-collection",
-      accepts: ["Button"],
-      placeholderAppearance: {
-        height: 36,
-        width: 100,
-        label: "Add button",
-      },
-    },
+    ...bannerCardDefinition.schema,
+    ...sectionWrapperSchemaProps.headerAndBackground,
   ],
-  styles: ({ values }) => {
+
+  styles: ({ values, params, device, isEditing }) => {
+    const sectionStyles = sectionWrapperStyles({
+      values,
+      params,
+      device,
+      isEditing,
+    });
+
+    const bannerCardStyles = bannerCardDefinition.styles!({
+      values: getBannerCardValues(values, device),
+      params,
+      device,
+      isEditing,
+    });
+
+    const { margin } = sectionWrapperCalculateMarginAndMaxWidth(
+      values.containerMargin,
+      values.containerMaxWidth,
+      device
+    );
+
     return {
       styled: {
-        Root: {
-          backgroundColor: values.backgroundColor,
-          border: values.hasBorder ? "2px solid black" : "none",
-          padding: values.padding,
+        ...sectionStyles.styled,
+        ...bannerCardStyles.styled,
+        SectionRoot: {
+          display: "grid",
+          position: "relative",
+          paddingLeft: values.escapeMargin ? 0 : margin.css,
+          paddingRight: values.escapeMargin ? 0 : margin.css,
         },
-        Wrapper: {
-          maxWidth: 600,
-          display: "flex",
-          flexDirection: "column",
-          gap: values.gap,
-        },
-        ButtonsWrapper: {
-          display: "flex",
-          flexDirection: "row",
-          flexWrap: "wrap",
-          gap: values.buttonsGap,
-        },
+      },
+      components: {
+        ...sectionStyles.components,
+        ...bannerCardStyles.components,
       },
     };
   },
-  editing: ({ values, editingInfo }) => {
+  editing: ({ editingInfo, values, params, device }) => {
+    const sectionEditingInfo = sectionWrapperEditing({
+      editingInfo,
+      values,
+      params,
+      device,
+    });
+
+    const bannerCardEditing = bannerCardDefinition.editing!({
+      editingInfo,
+      values: getBannerCardValues(values, device),
+      params,
+      device,
+    });
+
     return {
+      ...editingInfo,
       components: {
-        Buttons: values.Buttons.map(() => ({
-          direction: "horizontal",
-        })),
-        Title: {
-          fields: [
-            {
-              ...editingInfo.fields.find((field) => field.path === "gap")!,
-              label: "Bottom gap",
-            },
-          ],
-        },
+        ...sectionEditingInfo.components,
+        ...bannerCardEditing.components,
       },
     };
+  },
+  auto: ({ values, params, devices }) => {
+    return bannerCardAuto({
+      values,
+      params: {
+        ...params,
+        $width: sectionWrapperGetContainerWidths(values, devices), // let's take width without margins
+      },
+      devices,
+    });
   },
 };

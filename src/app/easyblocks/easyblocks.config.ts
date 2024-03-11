@@ -2,6 +2,8 @@ import { alertActionDefinition } from "@/app/easyblocks/components/AlertAction/A
 import { bannerCardDefinition } from "@/app/easyblocks/components/BannerCard/BannerCard.definition";
 import { coverCardDefinition } from "@/app/easyblocks/components/BannerCard/CoverCard/CoverCard.definition";
 import { bannerSectionDefinition } from "@/app/easyblocks/components/BannerSection/BannerSection.definition";
+import { leaguemedBannerDefinition } from "@/app/easyblocks/components/LeaguemedBanner/LeaguemedBanner.definition";
+
 import { linkDefinition } from "@/app/easyblocks/components/Link/Link.definition";
 import { productCardDefinition } from "@/app/easyblocks/components/ProductCard/ProductCard.definition";
 import { vimeoPlayerEditableComponent } from "@/app/easyblocks/components/VimeoPlayer/VimeoPlayer.definition";
@@ -26,7 +28,6 @@ import { mockImageWidget } from "./externalData/mockMedia/mockImageWidget";
 import { pexelsImageWidget } from "./externalData/pexels/pexelsImageWidget";
 import { productWidget } from "./externalData/product/productWidget";
 import { templates } from "./templates/templates";
-import { LeaguemedBannerDefinition } from "./components/LeaguemedBanner/LeaguemedBanner.definition";
 
 if (!process.env.NEXT_PUBLIC_EASYBLOCKS_ACCESS_TOKEN) {
   throw new Error("Missing NEXT_PUBLIC_EASYBLOCKS_ACCESS_TOKEN");
@@ -48,6 +49,7 @@ export const easyblocksConfig: Config = {
   ],
   components: [
     bannerSectionDefinition,
+    leaguemedBannerDefinition,
     bannerCardDefinition,
     productPageDefinition,
     standardPageDefinition,
@@ -67,7 +69,6 @@ export const easyblocksConfig: Config = {
     textLinkDefinition,
     simpleBannerDefinition,
     codeDefinition,
-    LeaguemedBannerDefinition,
   ],
   types: {
     "@easyblocks/image": {
