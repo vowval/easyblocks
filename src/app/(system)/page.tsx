@@ -3,6 +3,17 @@
 import { useEffect, useState } from "react";
 import { DocumentWidgetInline, Document } from "@/app/DocumenWidgetInline";
 import { useSearchParams } from "next/navigation";
+import { fetchBannerData } from "@/data/sanity";
+import { HomeBannerQuery } from "@/data/sanity/graphql/HomeBannerQuery"
+
+const sanityData = fetchBannerData(HomeBannerQuery).then(result => {
+  console.log('Banner Title:', result.getHomePageData.homePage.pageBuilder[0].heroImageTemplate.title);
+}).catch(error => {
+  console.log('Sanity Error:', error);
+})
+
+
+
 
 const DOCUMENT_KEY = "easyblocksQuickDemoDocumentId_v2";
 
@@ -73,6 +84,7 @@ export default function MainPage() {
             style={{ writingMode: "vertical-rl", textOrientation: "mixed" }}
           >
             Easyblocks demo
+            
           </h2>
         </div>
       )}
@@ -101,8 +113,9 @@ export default function MainPage() {
             </button>
 
             <h2 className={"text-xl font-semibold  mb-8 mt-10"}>
-              Easyblocks demo
+              Easyblocks demo jagan
             </h2>
+            
 
             <p className={"text-sm mb-4 text-black-2 max-w-lg"}>
               On the right side you see a demo of an embeddable Easyblocks
@@ -119,7 +132,7 @@ export default function MainPage() {
                 No-Code Components
               </a>{" "}
               in this example are: Hero Banner, Collection, Two Cards section,
-              Basic Card and a very simple Product Card.
+              Basic Card and a very simple Product Card. adsasddsfsdfsdfsdf
             </p>
 
             <div

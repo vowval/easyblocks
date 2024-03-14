@@ -1,5 +1,5 @@
-import { HomeBannerQuery } from "./graphql/HomeBannerQuery";
 import type { HomeBanner } from "./types";
+import fetchBannerData from "./fetchBannerData";
 
-export { HomeBannerQuery };
+export { fetchBannerData };
 export type { HomeBanner };
