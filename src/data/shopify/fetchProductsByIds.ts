@@ -22,8 +22,8 @@ export const fetchProductsByIds = async (
         const relatedTag = product.tags?.find((tag: any) =>
           tag.startsWith("related")
         );
-        const relatedProducts = await fetchProducts("tag:" + relatedTag);
-        product.relatedProducts = relatedProducts;
+        // const relatedProducts = await fetchProducts("tag:" + relatedTag);
+        // product.relatedProducts = relatedProducts;
       })
     );
   }

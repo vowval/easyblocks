@@ -10,6 +10,8 @@ const ProductCard = (props: {
 }) => {
   const { withBackdrop, relatedProductsMode, product } = props;
 
+  console.log("productReferences////////////////////////////", product);
+
   return (
     <div className={`pb-6`} key={product.id}>
       <Link href={"/products/" + product.handle} legacyBehavior>
