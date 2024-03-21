@@ -12,37 +12,37 @@ export const productWidget: Widget = {
 };
 
 export function ProductPicker({ id, onChange }: WidgetComponentProps<string>) {
-  const frameImgUrl = (imgKey: string | undefined) => {
-    if (imgKey) {
-      let imageName = imgKey.replace(/-(?!.*-)/, ".").replace(/image-/g, "");
-      return `https://cdn.sanity.io/images/guck6rjz/development/${imageName}`;
-    }
-  };
+  // const frameImgUrl = (imgKey: string | undefined) => {
+  //   if (imgKey) {
+  //     let imageName = imgKey.replace(/-(?!.*-)/, ".").replace(/image-/g, "");
+  //     return `https://cdn.sanity.io/images/guck6rjz/development/${imageName}`;
+  //   }
+  // };
 
   return (
     <SimplePicker
       value={id}
       onChange={onChange}
       getItems={async (query) => {
-        const products = await fetchProducts();
+        const products = await fetchProducts(query);
 
         return products.map((product: any) => ({
           id: product.id,
           title: product.title,
-          thumbnail: frameImgUrl(product.banner?.asset?._ref),
+          thumbnail: product.primaryImage?.mediaObject?.src,
         }));
       }}
       getItemById={async (id) => {
-        // const product = await fetchProductById(id);
-        const product = await fetchProducts();
-        if (!product[0]) {
+        const product = await fetchProductById(id);
+        // const product = await fetchProducts(id);
+        if (!product) {
           throw new Error("can't find product");
         }
 
         return {
-          id: product[0]?.id,
-          title: product[0]?.title,
-          thumbnail: frameImgUrl(product[0]?.banner?.asset?._ref),
+          id: product?.id,
+          title: product?.title,
+          thumbnail: product.primaryImage?.mediaObject?.src,
         };
       }}
       placeholder="Pick a product"

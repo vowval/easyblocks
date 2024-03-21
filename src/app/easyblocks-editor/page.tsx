@@ -27,100 +27,39 @@ import {
   ArticlePickerWidget,
   articleWidget,
 } from "../easyblocks/externalData/article/articleWidget";
+import {
+  ExternalCardPickerWidget,
+  externalCardWidget,
+} from "../easyblocks/externalData/externalCard/externalCardWidget";
 
 const myCustomFetch = createMyCustomFetch();
 
 export default function EeasyblocksEditorPage() {
   const [externalData, setExternalData] = useState<ExternalData>({});
-  const [externalDataValues, setExternalDataValues] = useState<ExternalData>(
-    {}
-  );
-
-  const products = [
-    {
-      id: "1",
-      title: "Product 1",
-      price: 25.0,
-    },
-    {
-      id: "2",
-      title: "Product 2",
-      price: 10.0,
-    },
-    {
-      id: "3",
-      title: "Product 3",
-      price: 50.0,
-    },
-    {
-      id: "4",
-      title: "Product 4",
-      price: 150.0,
-    },
-  ];
 
   return (
     <EasyblocksEditor
       config={easyblocksConfig}
-      externalData={externalDataValues}
-      // onExternalDataChange={async (externals) => {
-      //   const fetchedExternalData = await myCustomFetch(externals);
-      //   const removedExternals = Object.entries(externals)
-      //     .filter(
-      //       ([id, externalDataValue]) =>
-      //         externalDataValue.id === null && externalData[id]
-      //     )
-      //     .map(([externalId]) => externalId);
-
-      //   const newExternalData: ExternalData = {
-      //     ...externalData,
-      //     ...fetchedExternalData,
-      //   };
-
-      //   for (const removedExternalId of removedExternals) {
-      //     delete newExternalData[removedExternalId];
-      //   }
-
-      //   setExternalData(newExternalData);
-      // }}
+      externalData={externalData}
       onExternalDataChange={async (externals) => {
-        const productReferences = Object.entries(externals).filter(
-          ([, reference]) => {
-            return reference.id !== null;
-          }
-        );
-        console.log("=======productReferences", productReferences);
-        const resolvedProducts = Object.fromEntries(
-          productReferences.map(([id, reference]) => {
-            console.log("productReferences", id, reference);
-            const product = products.find((p) => p.id === reference.id);
-            if (!product) {
-              console.log(
-                "productReferences not found ~~~~~~~~~~~~~~~~~~~~~~~~~~"
-              );
-              return [
-                id,
-                {
-                  error: new Error(
-                    `Article with id ${reference.id} was not found`
-                  ),
-                },
-              ];
-            }
-            console.log(
-              "productReferences found !!!!!!!!!!!!!!!!!!!!1111",
-              product
-            );
-            return [id, { type: "article", value: product }];
-          })
-        );
+        const fetchedExternalData = await myCustomFetch(externals);
+        const removedExternals = Object.entries(externals)
+          .filter(
+            ([id, externalDataValue]) =>
+              externalDataValue.id === null && externalData[id]
+          )
+          .map(([externalId]) => externalId);
 
-        // We inform editor about change by updating `externalDataValues` state variable
-        // with new data
-        setExternalDataValues({
-          ...externalDataValues,
-          ...resolvedProducts,
-        });
+        const newExternalData: ExternalData = {
+          ...externalData,
+          ...fetchedExternalData,
+        };
+
+        for (const removedExternalId of removedExternals) {
+          delete newExternalData[removedExternalId];
+        }
+
+        setExternalData(newExternalData);
       }}
       components={components}
       widgets={{
@@ -130,6 +69,7 @@ export default function EeasyblocksEditorPage() {
         [pexelsImageWidget.id]: PexelsImagePicker,
         [pexelsVideoWidget.id]: PexelsVideoPicker,
         [articleWidget.id]: ArticlePickerWidget,
+        [externalCardWidget.id]: ExternalCardPickerWidget,
         url: UrlWidget,
       }}
       __debug={true}

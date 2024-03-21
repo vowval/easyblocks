@@ -20,9 +20,11 @@ import { TwoCards } from "./components/TwoCards/TwoCards";
 import { Video } from "./components/Video/Video";
 import { LeaguemedBanner } from "./components/LeaguemedBanner/LeaguemedBanner";
 import { ArticleCard } from "@/app/easyblocks/components/ArticleCard/ArticleCard";
+import { ExternalCard } from "./components/ExternalCard/ExternalCard";
 
 const components = {
-  ArticleCard,
+  // ArticleCard,
+  ExternalCard,
   ProductCard,
   Link,
   AlertAction,

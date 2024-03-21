@@ -30,6 +30,8 @@ import { productWidget } from "./externalData/product/productWidget";
 import { templates } from "./templates/templates";
 import { ArticleCardDefinition } from "./components/ArticleCard/ArticleCard.definition";
 import { articleWidget } from "./externalData/article/articleWidget";
+import { ExternalCardDefinition } from "./components/ExternalCard/ExternalCard.definition";
+import { externalCardWidget } from "./externalData/externalCard/externalCardWidget";
 
 if (!process.env.NEXT_PUBLIC_EASYBLOCKS_ACCESS_TOKEN) {
   throw new Error("Missing NEXT_PUBLIC_EASYBLOCKS_ACCESS_TOKEN");
@@ -71,7 +73,8 @@ export const easyblocksConfig: Config = {
     textLinkDefinition,
     simpleBannerDefinition,
     codeDefinition,
-    ArticleCardDefinition,
+    // ArticleCardDefinition,
+    ExternalCardDefinition,
   ],
   types: {
     "@easyblocks/image": {
@@ -86,9 +89,13 @@ export const easyblocksConfig: Config = {
       type: "external",
       widgets: [productWidget],
     },
-    article: {
+    // article: {
+    //   type: "external",
+    //   widgets: [articleWidget],
+    // },
+    externalCard: {
       type: "external",
-      widgets: [articleWidget],
+      widgets: [externalCardWidget],
     },
     url: {
       type: "inline",
